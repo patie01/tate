@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Happy Birthday Tatenda</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(135deg, #ffb6c1, #87cefa);
+      font-family: "Comic Sans MS", cursive, sans-serif;
+      text-align: center;
+      overflow-x: hidden;
+      overflow-y: auto;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 3rem;
+      color: #fff;
+      background: #ff69b4;
+      display: inline-block;
+      padding: 15px 30px;
+      border-radius: 20px;
+    }
+
+    .photo img {
+      width: 220px;
+      height: 220px;
+      object-fit: cover;
+      border-radius: 50%;
+      border: 6px solid #fff;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+    }
+
+    .message {
+      margin: 0;
+      max-width: 600px;
+      background: #fff;
+      padding: 20px;
+      border-radius: 20px;
+      font-size: 1.1rem;
+      color: #444;
+    }
+
+    /* Group the main pieces and control spacing */
+    .hero {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      padding: 40px 20px;
+      box-sizing: border-box;
+      min-height: 100vh;
+    }
+
+    .photo {
+      margin: 0;
+    }
+
+    /* Balloons */
+    .balloon {
+      position: absolute;
+      bottom: -150px;
+      width: 60px;
+      height: 80px;
+      border-radius: 50%;
+      animation: float 8s infinite ease-in;
+    }
+
+    .balloon::after {
+      content: "";
+      position: absolute;
+      bottom: -20px;
+      left: 50%;
+      width: 2px;
+      height: 20px;
+      background: #555;
+    }
+
+    /* visually hide audio but allow playback */
+    audio#bg-music {
+      position: fixed;
+      left: -9999px;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+    }
+
+    .music-btn {
+      background: rgba(255,255,255,0.95);
+      border: none;
+      padding: 10px 16px;
+      border-radius: 999px;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 6px 14px rgba(0,0,0,0.12);
+      transition: transform 120ms ease;
+    }
+
+    .music-btn:active {
+      transform: translateY(1px);
+    }
+
+    @keyframes float {
+      0% {
+        transform: translateY(0);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-120vh);
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Background Music -->
+  <audio id="bg-music" preload="auto" loop aria-hidden="true">
+    <source src="birthday.mp3.mpeg" type="audio/mpeg">
+    Your browser does not support the audio element.
+  </audio>
+
+  <div class="hero">
+    <h1>🎉 Happy Birthday Tatenda 🎉</h1>
+
+    <div class="photo">
+      <img src="tatendapic.jpeg" alt="Tatenda">
+    </div>
+
+    <div class="message">
+    <p>
+      Dear Tatenda 💖<br><br>
+      Today is all about you — your smile, your laughter, and the joy you bring
+      to everyone around you 🌈✨<br><br>
+      You are smart, kind, and so special, and I’m so proud to call you my little sister 💕<br><br>
+      May your day be filled with fun, cake, and everything that makes you happy 🎂🎈<br><br>
+      With lots of love and hugs,<br>
+      <strong>Your big sister 💖</strong>
+    </p>
+    </div>
+
+    <button id="music-toggle" class="music-btn" aria-pressed="false">Play Music</button>
+  </div>
+
+  <script>
+    const colors = ["#ff4d4d", "#ffd700", "#7cfc00", "#00bfff", "#da70d6"];
+
+    function createBalloon() {
+      const balloon = document.createElement("div");
+      balloon.className = "balloon";
+      balloon.style.left = Math.random() * 100 + "vw";
+      balloon.style.background = colors[Math.floor(Math.random() * colors.length)];
+      balloon.style.animationDuration = Math.random() * 3 + 6 + "s";
+      document.body.appendChild(balloon);
+
+      setTimeout(() => {
+        balloon.remove();
+      }, 9000);
+    }
+
+    setInterval(createBalloon, 700);
+
+    // Music toggle button behavior
+    (function() {
+      const audio = document.getElementById('bg-music');
+      const btn = document.getElementById('music-toggle');
+      if (!audio || !btn) return;
+
+      function updateButton() {
+        if (audio.paused) {
+          btn.textContent = 'Play Music';
+          btn.setAttribute('aria-pressed', 'false');
+        } else {
+          btn.textContent = 'Pause Music';
+          btn.setAttribute('aria-pressed', 'true');
+        }
+      }
+
+      // initialize
+      updateButton();
+
+      btn.addEventListener('click', () => {
+        if (audio.paused) {
+          audio.play().then(updateButton).catch(() => {
+            // autoplay may be blocked; still update label
+            updateButton();
+          });
+        } else {
+          audio.pause();
+          updateButton();
+        }
+      });
+    })();
+  </script>
+
+</body>
+</html>
